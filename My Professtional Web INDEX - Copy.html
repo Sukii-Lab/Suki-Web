@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Professional Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #12121d;
+            --card-bg: #1a1a2e;
+            --card-hover: #22223a;
+            --accent-gold: #d4af37;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-pink: #ec4899;
+            --accent-teal: #14b8a6;
+            --accent-amber: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+            --text-muted: #888899;
+            --glow: 0 0 30px rgba(139, 92, 246, 0.4);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --font-stack: 'Inter', 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #1a0a2e 0%, #0a0a12 50%);
+            color: var(--text-primary);
+            font-family: var(--font-stack);
+            min-height: 100vh;
+            padding: 30px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at top right, rgba(139, 92, 246, 0.15), transparent),
+                radial-gradient(600px circle at bottom left, rgba(212, 175, 55, 0.1), transparent);
+            z-index: -1;
+            animation: backgroundPulse 20s infinite alternate;
+        }
+
+        @keyframes backgroundPulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease;
+        }
+
+        header h1 {
+            font-size: 3.2em;
+            margin-bottom: 10px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            text-shadow: var(--glow);
+        }
+
+        header p {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        #search-form {
+            display: flex;
+            border-radius: 50px;
+            overflow: hidden;
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(139, 92, 246, 0.1);
+            transition: var(--transition-smooth);
+        }
+
+        #search-form:focus-within {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.5);
+        }
+
+        #search-input {
+            flex-grow: 1;
+            border: none;
+            padding: 20px 30px;
+            font-size: 1.1em;
+            background: transparent;
+            color: var(--text-primary);
+            outline: none;
+            font-weight: 500;
+        }
+
+        #search-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        #search-form button {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: var(--text-primary);
+            border: none;
+            padding: 0 30px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 1.2em;
+        }
+
+        #search-form button:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-pink));
+            transform: scale(1.05);
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .link-category {
+            background: linear-gradient(145deg, var(--card-bg), var(--bg-secondary));
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: var(--transition-bounce);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease both;
+        }
+
+        .link-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-purple), var(--accent-blue));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .link-category:hover::before {
+            opacity: 1;
+        }
+
+        .link-category:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), var(--glow);
+            background: linear-gradient(145deg, var(--card-hover), var(--card-bg));
+        }
+
+        .link-category h2 {
+            font-size: 1.6em;
+            margin-top: 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--text-primary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .link-category h2 {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .link-category h2:hover i {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 8px var(--accent-gold));
+        }
+
+        .link-category h2 i {
+            margin-right: 12px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2em;
+        }
+
+        .link-category h2 i:hover {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 8px var(--accent-gold));
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            background: rgba(139, 92, 246, 0.15);
+            padding: 14px 20px;
+            margin-top: 12px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
+        }
+
+        .link-card:hover {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            transform: translateX(15px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .link-card i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            margin-left: auto;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-15px) rotate(0deg); }
+            75% { transform: translateY(-10px) rotate(-1deg); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating:nth-child(2) { animation-delay: 0.5s; }
+        .floating:nth-child(3) { animation-delay: 1s; }
+        .floating:nth-child(4) { animation-delay: 1.5s; }
+        .floating:nth-child(5) { animation-delay: 2s; }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 2.2em;
+            }
+            .link-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .link-category {
+                padding: 20px;
+            }
+            #search-form {
+                border-radius: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .link-card {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="floating">Suki Web</h1>
+        <p>Your premium centralized hub for ultimate productivity & luxury digital experience</p>
+    </header>
+
+    <div class="search-container">
+        <form id="search-form" action="https://www.google.com/search" method="get">
+            <input type="text" id="search-input" name="q" placeholder="Search Google or navigate to any premium URL..." required>
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+
+    <main class="link-grid">
+        <section class="link-category floating">
+            <h2><i class="fas fa-code"></i> Development Tools</h2>
+            <a href="https://github.com/" target="_blank" class="link-card"><i class="fab fa-github"></i> GitHub<span class="category-tag">Code</span></a>
+            <a href="https://stackoverflow.com/" target="_blank" class="link-card"><i class="fab fa-stack-overflow"></i> Stack Overflow<span class="category-tag">Help</span></a>
+            <a href="https://developer.mozilla.org/en-US/" target="_blank" class="link-card"><i class="fas fa-book"></i> MDN Docs<span class="category-tag">Reference</span></a>
+            <a href="https://www.figma.com/" target="_blank" class="link-card"><i class="fab fa-figma"></i> Figma<span class="category-tag">Design</span></a>
+            <a href="https://codepen.io/" target="_blank" class="link-card"><i class="fab fa-codepen"></i> CodePen<span class="category-tag">Playground</span></a>
+            <a href="https://replit.com/" target="_blank" class="link-card"><i class="fas fa-code"></i> Replit<span class="category-tag">IDE</span></a>
+            <a href="https://codesandbox.io/" target="_blank" class="link-card"><i class="fas fa-cube"></i> CodeSandbox<span class="category-tag">Sandbox</span></a>
+            <a href="https://vercel.com/" target="_blank" class="link-card"><i class="fas fa-rocket"></i> Vercel<span class="category-tag">Deploy</span></a>
+            <a href="https://netlify.com/" target="_blank" class="link-card"><i class="fas fa-cloud-upload-alt"></i> Netlify<span class="category-tag">Deploy</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-globe"></i> News & Tech</h2>
+            <a href="https://news.ycombinator.com/" target="_blank" class="link-card"><i class="fas fa-newspaper"></i> Hacker News<span class="category-tag">Tech</span></a>
+            <a href="https://www.theverge.com/" target="_blank" class="link-card"><i class="fas fa-microchip"></i> The Verge<span class="category-tag">News</span></a>
+            <a href="https://www.reddit.com/r/programming/" target="_blank" class="link-card"><i class="fab fa-reddit"></i> r/programming<span class="category-tag">Community</span></a>
+            <a href="https://en.wikipedia.org/" target="_blank" class="link-card"><i class="fas fa-wikipedia-w"></i> Wikipedia<span class="category-tag">Knowledge</span></a>
+            <a href="https://techcrunch.com/" target="_blank" class="link-card"><i class="fas fa-bolt"></i> TechCrunch<span class="category-tag">Startup</span></a>
+            <a href="https://arstechnica.com/" target="_blank" class="link-card"><i class="fas fa-server"></i> Ars Technica<span class="category-tag">Depth</span></a>
+            <a href="https://www.wired.com/" target="_blank" class="link-card"><i class="fas fa-wifi"></i> WIRED<span class="category-tag">Culture</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-tasks"></i> Productivity Suite</h2>
+            <a href="https://calendar.google.com/" target="_blank" class="link-card"><i class="fas fa-calendar-alt"></i> Google Calendar<span class="category-tag">Schedule</span></a>
+            <a href="https://trello.com/" target="_blank" class="link-card"><i class="fab fa-trello"></i> Trello<span class="category-tag">Boards</span></a>
+            <a href="https://mail.google.com/" target="_blank" class="link-card"><i class="fas fa-envelope"></i> Gmail<span class="category-tag">Email</span></a>
+            <a href="https://zoom.us/" target="_blank" class="link-card"><i class="fas fa-video"></i> Zoom<span class="category-tag">Meetings</span></a>
+            <a href="https://notion.so/" target="_blank" class="link-card"><i class="fas fa-sticky-note"></i> Notion<span class="category-tag">Workspace</span></a>
+            <a href="https://slack.com/" target="_blank" class="link-card"><i class="fab fa-slack"></i> Slack<span class="category-tag">Chat</span></a>
+            <a href="https://asana.com/" target="_blank" class="link-card"><i class="fas fa-list-check"></i> Asana<span class="category-tag">Tasks</span></a>
+            <a href="https://todoist.com/" target="_blank" class="link-card"><i class="fas fa-check-circle"></i> Todoist<span class="category-tag">Tasks</span></a>
+            <a href="https://www.evernote.com/" target="_blank" class="link-card"><i class="fas fa-bookmark"></i> Evernote<span class="category-tag">Notes</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-palette"></i> Design & Utilities</h2>
+            <a href="https://unsplash.com/" target="_blank" class="link-card"><i class="fas fa-images"></i> Unsplash<span class="category-tag">Photos</span></a>
+            <a href="https://fonts.google.com/" target="_blank" class="link-card"><i class="fas fa-font"></i> Google Fonts<span class="category-tag">Typography</span></a>
+            <a href="https://htmlcolorcodes.com/" target="_blank" class="link-card"><i class="fas fa-palette"></i> Color Picker<span class="category-tag">Colors</span></a>
+            <a href="https://validator.w3.org/" target="_blank" class="link-card"><i class="fas fa-check-double"></i> W3C Validator<span class="category-tag">Validate</span></a>
+            <a href="https://caniuse.com/" target="_blank" class="link-card"><i class="fas fa-browser"></i> Can I Use<span class="category-tag">Support</span></a>
+            <a href="https://cssgradient.com/" target="_blank" class="link-card"><i class="fas fa-fill-drip"></i> CSS Gradient<span class="category-tag">Design</span></a>
+            <a href="https://cubic-bezier.com/" target="_blank" class="link-card"><i class="fas fa-bezier-curve"></i> Cubic Bezier<span class="category-tag">Easing</span></a>
+            <a href="https://coolors.co/" target="_blank" class="link-card"><i class="fas fa-swatchbook"></i> Coolors<span class="category-tag">Palettes</span></a>
+            <a href="https://heroicons.com/" target="_blank" class="link-card"><i class="fas fa-icons"></i> Heroicons<span class="category-tag">Icons</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-cloud"></i> Cloud Services</h2>
+            <a href="https://aws.amazon.com/" target="_blank" class="link-card"><i class="fab fa-aws"></i> AWS Console<span class="category-tag">Cloud</span></a>
+            <a href="https://cloud.google.com/" target="_blank" class="link-card"><i class="fab fa-google"></i> Google Cloud<span class="category-tag">Cloud</span></a>
+            <a href="https://azure.microsoft.com/" target="_blank" class="link-card"><i class="fab fa-microsoft"></i> Azure Portal<span class="category-tag">Cloud</span></a>
+            <a href="https://www.netlify.com/" target="_blank" class="link-card"><i class="fas fa-wind"></i> Netlify<span class="category-tag">Host</span></a>
+            <a href="https://www.digitalocean.com/" target="_blank" class="link-card"><i class="fas fa-water"></i> DigitalOcean<span class="category-tag">Cloud</span></a>
+            <a href="https://cloudflare.com/" target="_blank" class="link-card"><i class="fas fa-shield-alt"></i> Cloudflare<span class="category-tag">Security</span></a>
+            <a href="https://heroku.com/" target="_blank" class="link-card"><i class="fas fa-cloud"></i> Heroku<span class="category-tag">PaaS</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-chart-line"></i> Analytics & Data</h2>
+            <a href="https://analytics.google.com/" target="_blank" class="link-card"><i class="fas fa-chart-bar"></i> Google Analytics<span class="category-tag">Stats</span></a>
+            <a href="https://mixpanel.com/" target="_blank" class="link-card"><i class="fas fa-chart-pie"></i> Mixpanel<span class="category-tag">Events</span></a>
+            <a href="https://www.hotjar.com/" target="_blank" class="link-card"><i class="fas fa-thermometer-half"></i> Hotjar<span class="category-tag">Insights</span></a>
+            <a href="https://www.crunchbase.com/" target="_blank" class="link-card"><i class="fas fa-database"></i> Crunchbase<span class="category-tag">Data</span></a>
+            <a href="https://www.semrush.com/" target="_blank" class="link-card"><i class="fas fa-search-plus"></i> SEMrush<span class="category-tag">SEO</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-shopping-cart"></i> E-commerce & Retail</h2>
+            <a href="https://shopify.com/" target="_blank" class="link-card"><i class="fas fa-store"></i> Shopify<span class="category-tag">Platform</span></a>
+            <a href="https://woocommerce.com/" target="_blank" class="link-card"><i class="fas fa-shopping-basket"></i> WooCommerce<span class="category-tag">Plugin</span></a>
+            <a href="https://stripe.com/" target="_blank" class="link-card"><i class="fab fa-stripe"></i> Stripe<span class="category-tag">Payments</span></a>
+            <a href="https://paypal.com/" target="_blank" class="link-card"><i class="fab fa-paypal"></i> PayPal<span class="category-tag">Payments</span></a>
+            <a href="https://amazon.com/" target="_blank" class="link-card"><i class="fab fa-amazon"></i> Amazon<span class="category-tag">Retail</span></a>
+            <a href="https://aliexpress.com/" target="_blank" class="link-card"><i class="fas fa-box"></i> AliExpress<span class="category-tag">Wholesale</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-graduation-cap"></i> Learning & Education</h2>
+            <a href="https://coursera.org/" target="_blank" class="link-card"><i class="fas fa-school"></i> Coursera<span class="category-tag">Courses</span></a>
+            <a href="https://udemy.com/" target="_blank" class="link-card"><i class="fas fa-chalkboard-teacher"></i> Udemy<span class="category-tag">Courses</span></a>
+            <a href="https://edx.org/" target="_blank" class="link-card"><i class="fas fa-university"></i> edX<span class="category-tag">University</span></a>
+            <a href="https://khanacademy.org/" target="_blank" class="link-card"><i class="fas fa-book-open"></i> Khan Academy<span class="category-tag">Free</span></a>
+            <a href="https://leetcode.com/" target="_blank" class="link-card"><i class="fas fa-code-branch"></i> LeetCode<span class="category-tag">Coding</span></a>
+            <a href="https://freecodecamp.org/" target="_blank" class="link-card"><i class="fas fa-laptop-code"></i> freeCodeCamp<span class="category-tag">Free</span></a>
+            <a href="https://pluralsight.com/" target="_blank" class="link-card"><i class="fas fa-lightbulb"></i> Pluralsight<span class="category-tag">Tech</span></a>
+            <a href="https://udacity.com/" target="_blank" class="link-card"><i class="fas fa-atom"></i> Udacity<span class="category-tag">Nanodegree</span></a>
+            <a href="https://linkedin.com/learning/" target="_blank" class="link-card"><i class="fab fa-linkedin"></i> LinkedIn Learning<span class="category-tag">Professional</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-video"></i> Entertainment & Media</h2>
+            <a href="https://youtube.com/" target="_blank" class="link-card"><i class="fab fa-youtube"></i> YouTube<span class="category-tag">Videos</span></a>
+            <a href="https://netflix.com/" target="_blank" class="link-card"><i class="fas fa-film"></i> Netflix<span class="category-tag">Streaming</span></a>
+            <a href="https://spotify.com/" target="_blank" class="link-card"><i class="fab fa-spotify"></i> Spotify<span class="category-tag">Music</span></a>
+            <a href="https://disneyplus.com/" target="_blank" class="link-card"><i class="fas fa-magic"></i> Disney+<span class="category-tag">Streaming</span></a>
+            <a href="https://twitch.tv/" target="_blank" class="link-card"><i class="fab fa-twitch"></i> Twitch<span class="category-tag">Live</span></a>
+            <a href="https://hulu.com/" target="_blank" class="link-card"><i class="fas fa-tv"></i> Hulu<span class="category-tag">Streaming</span></a>
+            <a href="https://soundcloud.com/" target="_blank" class="link-card"><i class="fab fa-soundcloud"></i> SoundCloud<span class="category-tag">Audio</span></a>
+            <a href="https://imdb.com/" target="_blank" class="link-card"><i class="fas fa-star"></i> IMDb<span class="category-tag">Movies</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-briefcase"></i> Business & Finance</h2>
+            <a href="https://linkedin.com/" target="_blank" class="link-card"><i class="fab fa-linkedin"></i> LinkedIn<span class="category-tag">Network</span></a>
+            <a href="https://investopedia.com/" target="_blank" class="link-card"><i class="fas fa-chart-line"></i> Investopedia<span class="category-tag">Finance</span></a>
+            <a href="https://bloomberg.com/" target="_blank" class="link-card"><i class="fas fa-business-time"></i> Bloomberg<span class="category-tag">Markets</span></a>
+            <a href="https://forbes.com/" target="_blank" class="link-card"><i class="fas fa-money-bill-wave"></i> Forbes<span class="category-tag">Business</span></a>
+            <a href="https://wsj.com/" target="_blank" class="link-card"><i class="fas fa-newspaper"></i> Wall Street Journal<span class="category-tag">News</span></a>
+            <a href="https://markets.google.com/" target="_blank" class="link-card"><i class="fas fa-chart-area"></i> Google Markets<span class="category-tag">Stocks</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-tools"></i> Utilities & Tools</h2>
+            <a href="https://github.com/" target="_blank" class="link-card"><i class="fas fa-compass"></i> GitHub Compass<span class="category-tag">Navigation</span></a>
+            <a href="https://www.json.org/json-en.html" target="_blank" class="link-card"><i class="fas fa-code"></i> JSON Formatter<span class="category-tag">Dev</span></a>
+            <a href="https://regex101.com/" target="_blank" class="link-card"><i class="fas fa-underline"></i> Regex101<span class="category-tag">Regex</span></a>
+            <a href="https://www.diffchecker.com/" target="_blank" class="link-card"><i class="fas fa-compare"></i> Diff Checker<span class="category-tag">Compare</span></a>
+            <a href="https://jsfiddle.net/" target="_blank" class="link-card"><i class="fas fa-code"></i> JSFiddle<span class="category-tag">Demo</span></a>
+            <a href="https://codeshare.io/" target="_blank" class="link-card"><i class="fas fa-share-alt"></i> CodeShare<span class="category-tag">Share</span></a>
+            <a href="https://carbon.now.sh/" target="_blank" class="link-card"><i class="fas fa-image"></i> Carbon<span class="category-tag">Screenshots</span></a>
+            <a href="https://www.base64encode.org/" target="_blank" class="link-card"><i class="fas fa-lock"></i> Base64 Encode<span class="category-tag">Encode</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-robot"></i> AI & Machine Learning</h2>
+            <a href="https://chat.openai.com/" target="_blank" class="link-card"><i class="fas fa-comments"></i> ChatGPT<span class="category-tag">AI</span></a>
+            <a href="https://claude.ai/" target="_blank" class="link-card"><i class="fas fa-brain"></i> Claude<span class="category-tag">AI</span></a>
+            <a href="https://gemini.google.com/" target="_blank" class="link-card"><i class="fas fa-robot"></i> Gemini<span class="category-tag">AI</span></a>
+            <a href="https://midjourney.com/" target="_blank" class="link-card"><i class="fas fa-palette"></i> Midjourney<span class="category-tag">Art</span></a>
+            <a href="https://leonardo.ai/" target="_blank" class="link-card"><i class="fas fa-magic"></i> Leonardo AI<span class="category-tag">Art</span></a>
+            <a href="https://huggingface.co/" target="_blank" class="link-card"><i class="fas fa-heart"></i> Hugging Face<span class="category-tag">Models</span></a>
+            <a href="https://replicate.com/" target="_blank" class="link-card"><i class="fas fa-sync-alt"></i> Replicate<span class="category-tag">Inference</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-gamepad"></i> Gaming & Esports</h2>
+            <a href="https://steamcommunity.com/" target="_blank" class="link-card"><i class="fab fa-steam"></i> Steam<span class="category-tag">Platform</span></a>
+            <a href="https://epicgames.com/store/" target="_blank" class="link-card"><i class="fas fa-gamepad"></i> Epic Games<span class="category-tag">Store</span></a>
+            <a href="https://www.twitch.tv/directory/game" target="_blank" class="link-card"><i class="fab fa-twitch"></i> Twitch Games<span class="category-tag">Live</span></a>
+            <a href="https://discord.com/" target="_blank" class="link-card"><i class="fab fa-discord"></i> Discord<span class="category-tag">Chat</span></a>
+            <a href="https://www.reddit.com/r/gaming/" target="_blank" class="link-card"><i class="fab fa-reddit"></i> r/gaming<span class="category-tag">Community</span></a>
+            <a href="https://esports.com/" target="_blank" class="link-card"><i class="fas fa-trophy"></i> Esports<span class="category-tag">News</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-heart"></i> Health & Wellness</h2>
+            <a href="https://www.healthline.com/" target="_blank" class="link-card"><i class="fas fa-heartbeat"></i> Healthline<span class="category-tag">Health</span></a>
+            <a href="https://www.myfitnesspal.com/" target="_blank" class="link-card"><i class="fas fa-utensils"></i> MyFitnessPal<span class="category-tag">Nutrition</span></a>
+            <a href="https://www.headspace.com/" target="_blank" class="link-card"><i class="fas fa-brain"></i> Headspace<span class="category-tag">Meditation</span></a>
+            <a href="https://www.fitbit.com/" target="_blank" class="link-card"><i class="fas fa-clock"></i> Fitbit<span class="category-tag">Fitness</span></a>
+            <a href="https://www.webmd.com/" target="_blank" class="link-card"><i class="fas fa-stethoscope"></i> WebMD<span class="category-tag">Medical</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-plane"></i> Travel & Navigation</h2>
+            <a href="https://www.google.com/maps/" target="_blank" class="link-card"><i class="fas fa-map-marked-alt"></i> Google Maps<span class="category-tag">Maps</span></a>
+            <a href="https://www.google.com/flights/" target="_blank" class="link-card"><i class="fas fa-plane-departure"></i> Google Flights<span class="category-tag">Flights</span></a>
+            <a href="https://www.booking.com/" target="_blank" class="link-card"><i class="fas fa-hotel"></i> Booking.com<span class="category-tag">Hotels</span></a>
+            <a href="https://www.expedia.com/" target="_blank" class="link-card"><i class="fas fa-suitcase"></i> Expedia<span class="category-tag">Travel</span></a>
+            <a href="https://www.airbnb.com/" target="_blank" class="link-card"><i class="fab fa-airbnb"></i> Airbnb<span class="category-tag">Stays</span></a>
+            <a href="https://www.tripadvisor.com/" target="_blank" class="link-card"><i class="fas fa-camera"></i> TripAdvisor<span class="category-tag">Reviews</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-book"></i> Reading & Documentation</h2>
+            <a href="https://dev.to/" target="_blank" class="link-card"><i class="fas fa-code"></i> DEV Community<span class="category-tag">Blog</span></a>
+            <a href="https://medium.com/" target="_blank" class="link-card"><i class="fab fa-medium"></i> Medium<span class="category-tag">Articles</span></a>
+            <a href="https://dzone.com/" target="_blank" class="link-card"><i class="fas fa-rss"></i> DZone<span class="category-tag">Tech</span></a>
+            <a href="https://css-tricks.com/" target="_blank" class="link-card"><i class="fab fa-css3-alt"></i> CSS-Tricks<span class="category-tag">CSS</span></a>
+            <a href="https://smashingmagazine.com/" target="_blank" class="link-card"><i class="fas fa-desktop"></i> Smashing Magazine<span class="category-tag">Design</span></a>
+            <a href="https://alistapart.com/" target="_blank" class="link-card"><i class="fas fa-book-open"></i> A List Apart<span class="category-tag">Web</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-shipping-fast"></i> Parcel & Logistics</h2>
+            <a href="https://www.fedex.com/" target="_blank" class="link-card"><i class="fas fa-truck"></i> FedEx<span class="category-tag">Shipping</span></a>
+            <a href="https://www.ups.com/" target="_blank" class="link-card"><i class="fas fa-box"></i> UPS<span class="category-tag">Delivery</span></a>
+            <a href="https://www.dhl.com/" target="_blank" class="link-card"><i class="fas fa-shipping-fast"></i> DHL<span class="category-tag">Express</span></a>
+            <a href="https://www.usps.com/" target="_blank" class="link-card"><i class="fas fa-envelope"></i> USPS<span class="category-tag">Mail</span></a>
+        </section>
+
+        <section class="link-category floating">
+            <h2><i class="fas fa-language"></i> Translation & Languages</h2>
+            <a href="https://translate.google.com/" target="_blank" class="link-card"><i class="fas fa-language"></i> Google Translate<span class="category-tag">Translate</span></a>
+            <a href="https://www.duolingo.com/" target="_blank" class="link-card"><i class="fas fa-graduation-cap"></i> Duolingo<span class="category-tag">Learn</span></a>
+            <a href="https://www.grammarly.com/" target="_blank" class="link-card"><i class="fas fa-spell-check"></i> Grammarly<span class="category-tag">Grammar</span></a>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('search-input');
+            
+            const isUrl = (string) => {
+                const urlPattern = /^(https?:\/\/)?([\w.-]+\.[a-z]{2,})(\S*)$/i;
+                return urlPattern.test(string);
+            };
+
+            searchForm.addEventListener('submit', (e) => {
+                const query = searchInput.value.trim();
+
+                if (query && isUrl(query)) {
+                    e.preventDefault();
+                    
+                    let targetUrl = query;
+                    if (!targetUrl.match(/^https?:\/\//i)) {
+                        targetUrl = 'https://' + targetUrl;
+                    }
+                    
+                    window.location.href = targetUrl;
+                }
+            });
+
+            const cards = document.querySelectorAll('.link-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.05}s`;
+            });
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.link-category').forEach(category => {
+                observer.observe(category);
+            });
+        });
+    </script>
+</body>
+</html>
